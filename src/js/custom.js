@@ -1,15 +1,15 @@
-var $chart_area, lastWidth, Graph;
+var $chart_area, lastWidth, GraphModule;
 
 function checkForChanges() {
   if ($chart_area.width() != lastWidth) {
     lastWidth = $chart_area.width();
     let height = $('#graph').height();
-    Graph.graph.svg.style('width', lastWidth + 'px');
-    Graph.simulation.force(
+    GraphModule.Graph.graph.svg.style('width', lastWidth + 'px');
+    GraphModule.Graph.simulation.force(
       'center',
       customModule.d3.forceCenter(lastWidth / 2, height / 2)
     );
-    Graph.simulation.restart();
+    GraphModule.Graph.simulation.restart();
   }
 
   setTimeout(checkForChanges, 500);
@@ -67,7 +67,7 @@ $(document).ready(function() {
 
       // draw the custom network
       customModule.clearSVG();
-      Graph = customModule.init(graphData);
+      GraphModule = customModule.init(graphData);
 
       // correct the svg element width
       customModule.correctSVGWidth(lastWidth);

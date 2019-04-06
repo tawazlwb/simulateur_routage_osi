@@ -1,18 +1,44 @@
-var $chart_area, lastWidth, Graph;
+var $chart_area, lastWidth, GraphModule;
 
 function checkForChanges() {
   if ($chart_area.width() != lastWidth) {
     lastWidth = $chart_area.width();
     let height = $('#graph').height();
-    Graph.graph.svg.style('width', lastWidth + 'px');
-    Graph.simulation.force(
+    GraphModule.Graph.graph.svg.style('width', lastWidth + 'px');
+    GraphModule.Graph.simulation.force(
       'center',
       customModule.d3.forceCenter(lastWidth / 2, height / 2)
     );
-    Graph.simulation.restart();
+    GraphModule.Graph.simulation.restart();
   }
 
   setTimeout(checkForChanges, 500);
+}
+
+function countSelectedNode() {
+  let count = 0;
+  if (typeof GraphModule !== 'undefined') {
+    GraphModule.isNodeClicked.forEach(function(isClicked, index) {
+      if (isClicked) {
+        ++count;
+        /* console.log(
+          index + ': ' + GraphModule.Graph.simulation.nodes()[index].name
+        ); */
+      }
+    });
+    return count;
+  }
+}
+
+function CheckNodes() {
+  let count = countSelectedNode();
+  if (count == 0 || count == 1 || count > 2) {
+    console.log(
+      'You must select 2 nodes to start Dijkstra algorithm simulation!'
+    );
+  } else {
+    console.log('You can start!');
+  }
 }
 
 $(document).ready(function() {
@@ -24,7 +50,7 @@ $(document).ready(function() {
   var $optimal = $('#optimal');
 
   // draw new custom network
-  Graph = customModule.init();
+  GraphModule = customModule.init();
 
   // correct the svg element width
   customModule.correctSVGWidth(lastWidth);
@@ -33,7 +59,7 @@ $(document).ready(function() {
   $restart.on('click', function() {
     // draw new custom network
     customModule.clearSVG();
-    Graph = customModule.init();
+    GraphModule = customModule.init();
 
     // correct the svg element width
     customModule.correctSVGWidth(lastWidth);
@@ -42,5 +68,6 @@ $(document).ready(function() {
 
   $optimal.on('click', function() {
     console.log('optimal');
+    CheckNodes();
   });
 });

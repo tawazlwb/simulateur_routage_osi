@@ -5,13 +5,13 @@ import * as dragEvents from './drag.event';
 import * as pathsEvents from './path.event';
 import * as nodesEvents from './node.event';
 
-var Graph;
+var Graph, isNodeClicked, isPathClicked;
 
 function init(customLinkData) {
   Graph = G.initGraph(customLinkData);
 
-  var isNodeClicked = eventVars.initNodeClick(Graph.graph.nodes_data.length);
-  var isPathClicked = eventVars.initPathClick(Graph.graph.links_data.length);
+  isNodeClicked = eventVars.initNodeClick(Graph.graph.nodes_data.length);
+  isPathClicked = eventVars.initPathClick(Graph.graph.links_data.length);
   dragEvents.initDragAndDropEvents(
     Graph.simulation,
     Graph.circle,
@@ -25,7 +25,7 @@ function init(customLinkData) {
     isNodeClicked,
     isPathClicked
   );
-  return Graph;
+  return { Graph, isNodeClicked, isPathClicked };
 }
 
 function clearSVG() {

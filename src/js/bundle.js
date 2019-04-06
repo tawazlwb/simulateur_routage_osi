@@ -26676,17 +26676,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var d3 = require('d3');
 
 
-var Graph;
+var Graph, isNodeClicked, isPathClicked;
 
 function init(customLinkData) {
   Graph = _graph2.default.initGraph(customLinkData);
 
-  var isNodeClicked = eventVars.initNodeClick(Graph.graph.nodes_data.length);
-  var isPathClicked = eventVars.initPathClick(Graph.graph.links_data.length);
+  isNodeClicked = eventVars.initNodeClick(Graph.graph.nodes_data.length);
+  isPathClicked = eventVars.initPathClick(Graph.graph.links_data.length);
   dragEvents.initDragAndDropEvents(Graph.simulation, Graph.circle, Graph.text, isNodeClicked);
   pathsEvents.initPathEvents(Graph.path, isPathClicked);
   nodesEvents.initNodeEvents(Graph.circle, Graph.text, isNodeClicked, isPathClicked);
-  return Graph;
+  return { Graph: Graph, isNodeClicked: isNodeClicked, isPathClicked: isPathClicked };
 }
 
 function clearSVG() {
