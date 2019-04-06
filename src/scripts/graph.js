@@ -52,25 +52,6 @@ function linkRealDistance(d) {
 
 function initFoces() {
   //add forces
-  //.force('charge', d3.forceManyBody())
-  /*
-   .force(
-      'attractForce',
-      d3
-        .forceManyBody()
-        .strength(100)
-        .distanceMax(5000)
-        .distanceMin(30)
-    )
-    .force(
-      'collisionForce',
-      d3
-        .forceCollide(30)
-        .strength(1)
-        .iterations(100)
-    )
-   */
-
   _simulation
     .force(
       'center',
