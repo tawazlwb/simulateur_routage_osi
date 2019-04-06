@@ -26559,25 +26559,6 @@ function linkRealDistance(d) {
 
 function initFoces() {
   //add forces
-  //.force('charge', d3.forceManyBody())
-  /*
-   .force(
-      'attractForce',
-      d3
-        .forceManyBody()
-        .strength(100)
-        .distanceMax(5000)
-        .distanceMin(30)
-    )
-    .force(
-      'collisionForce',
-      d3
-        .forceCollide(30)
-        .strength(1)
-        .iterations(100)
-    )
-   */
-
   _simulation.force('center', d3.forceCenter(_graph.svg.attr('width') / 2, _graph.svg.attr('height') / 2)).force('collisionForce', d3.forceCollide(30).strength(1).iterations(100));
   //Create the link force
   var link_force = d3.forceLink(_graph.links_data).distance(linkDistance).strength(1).id(function (d) {
@@ -26714,19 +26695,19 @@ function clearSVG() {
   }
 }
 
-//init();
+function correctSVGWidth(lastWidth) {
+  if (typeof Graph !== 'undefined') {
+    var height = Graph.graph.svg.style('height').slice(0, -2);
+    Graph.graph.svg.style('width', lastWidth + 'px');
+    Graph.simulation.force('center', customModule.d3.forceCenter(lastWidth / 2, height / 2));
+    Graph.simulation.restart();
+  }
+}
 
 exports.d3 = d3;
 exports.init = init;
 exports.clearSVG = clearSVG;
-
-// for development testing only
-/* exports.graph = Graph.graph;
-exports.simulation = Graph.simulation;
-exports.circle = Graph.circle;
-exports.path = Graph.path;
-exports.text = Graph.text;
-exports.distance = Graph.distance; */
+exports.correctSVGWidth = correctSVGWidth;
 
 },{"./drag.event":74,"./graph":75,"./node.event":77,"./path.event":78,"./var.event":79,"d3":38}],77:[function(require,module,exports){
 'use strict';

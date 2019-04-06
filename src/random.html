@@ -115,7 +115,7 @@
             <!-- Content Row -->
             <div class="row">
               <!-- Area Graph -->
-              <div class="col-xl-8 col-lg-8">
+              <div class="col-xl-12 col-lg-12">
                 <div class="card shadow mb-4">
                   <!-- Card Header - Dropdown -->
                   <div
@@ -126,11 +126,11 @@
                     </h6>
                     <div class="dropdown no-arrow">
                       <a
-                        id="start"
+                        id="restart"
                         href="#"
                         class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"
                         ><i class="fas fa-play-circle fa-sm text-white-50"></i>
-                        Start simulator</a
+                        Restart simulator</a
                       >
                       <a
                         id="optimal"
@@ -145,128 +145,6 @@
                   <div class="card-body">
                     <div class="chart-area" style="height: 525px;">
                       <svg id="graph" width="792.65" height="525"></svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-4 col-lg-4">
-                <!-- Pie Chart -->
-                <div class="col-xl-12 col-lg-12">
-                  <div class="card shadow mb-4">
-                    <!-- Card Header -->
-                    <div
-                      class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-                    >
-                      <h6 class="m-0 font-weight-bold text-primary">
-                        Node Data
-                      </h6>
-                      <div class="dropdown no-arrow">
-                        <a
-                          class="dropdown-toggle"
-                          href="#"
-                          role="button"
-                          id="dropdownMenuLink"
-                          data-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false"
-                        >
-                          <i
-                            class="fas fa-info-circle fa-sm fa-fw text-gray-400"
-                          ></i>
-                        </a>
-                        <div
-                          class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                          aria-labelledby="dropdownMenuLink"
-                          x-placement="bottom-end"
-                          style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-156px, 19px, 0px);"
-                        >
-                          <div class="dropdown-header">Node data example</div>
-                          <div class="dropdown-divider"></div>
-                          <span class="dropdown-item-text">
-                            <pre>
-[
-  { "name": "A" },
-  { "name": "B" },
-  { "name": "C" },
-  { "name": "D" },
-  { "name": "E" },
-  { "name": "F" }
-]
-                          </pre
-                            >
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                      <textarea
-                        class="form-control"
-                        style="resize: none;"
-                        rows="8"
-                        id="nodes_data"
-                      ></textarea>
-                    </div>
-                  </div>
-                </div>
-                <!-- Pie Chart -->
-                <div class="col-xl-12 col-lg-12">
-                  <div class="card shadow mb-4">
-                    <!-- Card Header -->
-                    <div
-                      class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-                    >
-                      <h6 class="m-0 font-weight-bold text-primary">
-                        Link Data
-                      </h6>
-                      <div class="dropdown no-arrow">
-                        <a
-                          class="dropdown-toggle"
-                          href="#"
-                          role="button"
-                          id="dropdownMenuLink"
-                          data-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false"
-                        >
-                          <i
-                            class="fas fa-info-circle fa-sm fa-fw text-gray-400"
-                          ></i>
-                        </a>
-                        <div
-                          class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                          aria-labelledby="dropdownMenuLink"
-                          x-placement="bottom-end"
-                          style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-156px, 19px, 0px);"
-                        >
-                          <div class="dropdown-header">Link data example</div>
-                          <div class="dropdown-divider"></div>
-                          <span class="dropdown-item-text">
-                            <pre>
-[
-  { "source": "A", "target": "B", "distance": 7 },
-  { "source": "A", "target": "C", "distance": 9 },
-  { "source": "A", "target": "F", "distance": 14 },
-  { "source": "B", "target": "C", "distance": 10 },
-  { "source": "B", "target": "D", "distance": 15 },
-  { "source": "C", "target": "D", "distance": 11 },
-  { "source": "C", "target": "F", "distance": 5 },
-  { "source": "D", "target": "E", "distance": 6 },
-  { "source": "E", "target": "F", "distance": 9 }
-]
-                            </pre>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                      <textarea
-                        class="form-control"
-                        style="resize: none;"
-                        rows="8"
-                        id="links_data"
-                      ></textarea>
                     </div>
                   </div>
                 </div>

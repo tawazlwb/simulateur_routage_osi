@@ -15,26 +15,9 @@ function checkForChanges() {
   setTimeout(checkForChanges, 500);
 }
 
-function centerRandomSVG() {
-  let height = $('#graph').height();
-  Graph.graph.svg.style('width', lastWidth + 'px');
-  Graph.simulation.force(
-    'center',
-    customModule.d3.forceCenter(lastWidth / 2, height / 2)
-  );
-  Graph.simulation.restart();
-}
-
-function centerSVG() {
-  $('#graph').css('width', lastWidth);
-}
-
 $(document).ready(function() {
   $chart_area = $('.chart-area');
   lastWidth = $('.chart-area').width();
-
-  // correct the svg element width
-  centerSVG();
 
   // custom network
   var $start = $('#start');
@@ -85,6 +68,9 @@ $(document).ready(function() {
       // draw the custom network
       customModule.clearSVG();
       Graph = customModule.init(graphData);
+
+      // correct the svg element width
+      customModule.correctSVGWidth(lastWidth);
       checkForChanges();
     } else {
       if ($nodes_data.val().length === 0) {
@@ -97,6 +83,7 @@ $(document).ready(function() {
       }
     }
   });
+
   $optimal.on('click', function() {
     console.log('optimal');
   });

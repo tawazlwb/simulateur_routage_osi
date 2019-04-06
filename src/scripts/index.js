@@ -34,16 +34,19 @@ function clearSVG() {
   }
 }
 
-//init();
+function correctSVGWidth(lastWidth) {
+  if (typeof Graph !== 'undefined') {
+    let height = Graph.graph.svg.style('height').slice(0, -2);
+    Graph.graph.svg.style('width', lastWidth + 'px');
+    Graph.simulation.force(
+      'center',
+      customModule.d3.forceCenter(lastWidth / 2, height / 2)
+    );
+    Graph.simulation.restart();
+  }
+}
 
 exports.d3 = d3;
 exports.init = init;
 exports.clearSVG = clearSVG;
-
-// for development testing only
-/* exports.graph = Graph.graph;
-exports.simulation = Graph.simulation;
-exports.circle = Graph.circle;
-exports.path = Graph.path;
-exports.text = Graph.text;
-exports.distance = Graph.distance; */
+exports.correctSVGWidth = correctSVGWidth;
