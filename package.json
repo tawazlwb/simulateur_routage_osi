@@ -1,0 +1,39 @@
+{
+  "name": "mini_projet_routage_osi",
+  "version": "1.0.0",
+  "description": "Réalisation d'un simulateur d'Algorithme de Routage sur un Réseau.",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify src/scripts/index.js --standalone customModule -o src/js/bundle.js",
+    "watch": "watchify src/scripts/index.js --standalone customModule -o src/js/bundle.js -v"
+  },
+  "author": "Ismail KHAIRY",
+  "license": "ISC",
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
+    ]
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.1",
+    "bootstrap": "^4.3.1",
+    "browserify": "^16.2.3",
+    "d3": "^4.13.0",
+    "d3-selection-multi": "^1.0.1",
+    "jquery": "^3.3.1",
+    "jquery-easing": "0.0.1",
+    "watchify": "^3.11.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^8.0.0"
+  }
+}
