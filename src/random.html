@@ -100,11 +100,11 @@
             <ul class="navbar-nav ml-auto">
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="#">
+                <div class="nav-link dropdown-toggle" href="#">
                   <span class="mr-2 d-none d-lg-inline text-gray-600 small"
                     >réalisé par Ismail KHAIRY et Ibrahim Wazir KOREISSI</span
                   >
-                </a>
+                </div>
               </li>
             </ul>
           </nav>
@@ -121,9 +121,26 @@
                   <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                   >
-                    <h6 class="m-0 font-weight-bold text-primary">
-                      Graph
-                    </h6>
+                    <div class="d-flex flex-row">
+                      <h6
+                        class="m-0 font-weight-bold text-primary"
+                        style="margin-right: 150px !important;"
+                      >
+                        Graph
+                      </h6>
+                      <h6 style="margin-right: 10px;">Distance:</h6>
+                      <h6
+                        id="distance"
+                        class="font-weight-bold text-primary"
+                        style="margin-right: 100px;"
+                      >
+                        ...
+                      </h6>
+                      <h6 style="margin-right: 10px;">Path:</h6>
+                      <h6 id="path" class="font-weight-bold text-primary">
+                        ...
+                      </h6>
+                    </div>
                     <div class="dropdown no-arrow">
                       <a
                         id="restart"
@@ -138,6 +155,14 @@
                         class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
                         ><i class="fas fa-search fa-sm text-white-50"></i>
                         Optimal path</a
+                      >
+                      <a
+                        id="clear"
+                        href="#"
+                        class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm disabled"
+                        d
+                        ><i class="fas fa-trash-alt fa-sm text-white-50"></i>
+                        Clear graph</a
                       >
                     </div>
                   </div>
@@ -173,6 +198,7 @@
     <script src="./js/interface.js"></script>
     <script src="./js/bundle.js"></script>
 
+    <script src="./js/custom_common.js"></script>
     <script src="./js/custom_random.js"></script>
   </body>
 </html>

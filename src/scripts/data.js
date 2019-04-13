@@ -21,9 +21,9 @@ var links_data = [
   { source: 'B', target: 'C', distance: 10 },
   { source: 'B', target: 'D', distance: 15 },
   { source: 'C', target: 'D', distance: 11 },
-  { source: 'C', target: 'F', distance: 5 },
-  { source: 'D', target: 'E', distance: 6 },
-  { source: 'E', target: 'F', distance: 9 }
+  { source: 'C', target: 'F', distance: 5 }
+  //{ source: 'D', target: 'E', distance: 6 },
+  //{ source: 'E', target: 'F', distance: 9 }
 ];
 
 function initData(graphData) {

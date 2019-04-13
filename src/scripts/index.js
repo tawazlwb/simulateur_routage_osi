@@ -1,4 +1,5 @@
 var d3 = require('d3');
+var Dijkstra = require('./execute_dijkstra');
 import G from './graph';
 import * as eventVars from './var.event';
 import * as dragEvents from './drag.event';
@@ -47,6 +48,7 @@ function correctSVGWidth(lastWidth) {
 }
 
 exports.d3 = d3;
+exports.Dijkstra = Dijkstra;
 exports.init = init;
 exports.clearSVG = clearSVG;
 exports.correctSVGWidth = correctSVGWidth;

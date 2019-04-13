@@ -26432,7 +26432,10 @@ var svg = d3.select('svg');
 var nodes_data = [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }, { name: 'E' }, { name: 'F' }];
 
 // nodes link data
-var links_data = [{ source: 'A', target: 'B', distance: 7 }, { source: 'A', target: 'C', distance: 9 }, { source: 'A', target: 'F', distance: 14 }, { source: 'B', target: 'C', distance: 10 }, { source: 'B', target: 'D', distance: 15 }, { source: 'C', target: 'D', distance: 11 }, { source: 'C', target: 'F', distance: 5 }, { source: 'D', target: 'E', distance: 6 }, { source: 'E', target: 'F', distance: 9 }];
+var links_data = [{ source: 'A', target: 'B', distance: 7 }, { source: 'A', target: 'C', distance: 9 }, { source: 'A', target: 'F', distance: 14 }, { source: 'B', target: 'C', distance: 10 }, { source: 'B', target: 'D', distance: 15 }, { source: 'C', target: 'D', distance: 11 }, { source: 'C', target: 'F', distance: 5
+  //{ source: 'D', target: 'E', distance: 6 },
+  //{ source: 'E', target: 'F', distance: 9 }
+}];
 
 function initData(graphData) {
   if (typeof graphData !== 'undefined') {
@@ -26449,6 +26452,75 @@ function initData(graphData) {
 exports.initData = initData;
 
 },{"d3":38}],74:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var lowestCostNode = function lowestCostNode(costs, processed) {
+  return Object.keys(costs).reduce(function (lowest, node) {
+    if (lowest === null || costs[node] < costs[lowest]) {
+      if (!processed.includes(node)) {
+        lowest = node;
+      }
+    }
+    return lowest;
+  }, null);
+};
+
+// function that returns the minimum cost and path to reach Finish
+function execute(graph) {
+  // track lowest cost to reach each node
+  var costs = Object.assign({ finish: Infinity }, graph.start);
+
+  // track paths
+  var parents = { finish: null };
+  for (var child in graph.start) {
+    parents[child] = 'start';
+  }
+
+  // track nodes that have already been processed
+  var processed = [];
+
+  var node = lowestCostNode(costs, processed);
+
+  while (node) {
+    var cost = costs[node];
+    var children = graph[node];
+    for (var n in children) {
+      var newCost = cost + children[n];
+      if (!costs[n]) {
+        costs[n] = newCost;
+        parents[n] = node;
+      }
+      if (costs[n] > newCost) {
+        costs[n] = newCost;
+        parents[n] = node;
+      }
+    }
+    processed.push(node);
+    node = lowestCostNode(costs, processed);
+  }
+
+  var optimalPath = ['finish'];
+  var parent = parents.finish;
+  while (parent) {
+    optimalPath.push(parent);
+    parent = parents[parent];
+  }
+  optimalPath.reverse();
+
+  var results = {
+    distance: costs.finish,
+    path: optimalPath
+  };
+
+  return results;
+}
+
+exports.execute = execute;
+
+},{}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -26500,7 +26572,101 @@ exports.dragstarted = dragstarted;
 exports.dragged = dragged;
 exports.dragended = dragended;
 
-},{"d3":38}],75:[function(require,module,exports){
+},{"d3":38}],76:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// dijkstra algorithm
+var dijkstra = require('./dijkstra');
+
+function prepareProblemData(graph, start, finish) {
+  var problem = {};
+  for (var index = 0; index < graph.length; index++) {
+    var link = graph[index];
+    var source = link.source.name;
+    var target = link.target.name;
+    var value = link.distance;
+
+    if (source === start) {
+      source = 'start';
+    } else if (target === start) {
+      target = 'start';
+    }
+
+    if (source === finish) {
+      source = 'finish';
+    } else if (target === finish) {
+      target = 'finish';
+    }
+
+    if (!problem[source]) {
+      problem[source] = _defineProperty({}, target, value);
+    } else {
+      var element = problem[source];
+      element[target] = value;
+    }
+  }
+  problem['finish'] = {};
+
+  if (!problem.start) {
+    var keys = Object.keys(problem);
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var key = _step.value;
+
+        var _element = problem[key];
+        if (_element.start) {
+          var distance = _element.start;
+          if (!problem.start) {
+            var starting = _defineProperty({}, key, distance);
+            problem['start'] = starting;
+          } else {
+            problem['start'][key] = distance;
+          }
+          delete _element.start;
+        }
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+  }
+
+  return problem;
+}
+
+function run(graph, start, finish) {
+  var problem = prepareProblemData(graph, start, finish);
+  var result = dijkstra.execute(problem);
+  var last = result.path.length - 1;
+  result.path[0] = start;
+  result.path[last] = finish;
+
+  return result;
+}
+
+exports.run = run;
+
+},{"./dijkstra":74}],77:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26646,7 +26812,7 @@ function tickActions() {
 
 exports.initGraph = initGraph;
 
-},{"./data":73,"d3":38,"d3-selection-multi":29}],76:[function(require,module,exports){
+},{"./data":73,"d3":38,"d3-selection-multi":29}],78:[function(require,module,exports){
 'use strict';
 
 var _graph = require('./graph');
@@ -26674,6 +26840,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var d3 = require('d3');
+var Dijkstra = require('./execute_dijkstra');
 
 
 var Graph, isNodeClicked, isPathClicked;
@@ -26705,11 +26872,12 @@ function correctSVGWidth(lastWidth) {
 }
 
 exports.d3 = d3;
+exports.Dijkstra = Dijkstra;
 exports.init = init;
 exports.clearSVG = clearSVG;
 exports.correctSVGWidth = correctSVGWidth;
 
-},{"./drag.event":74,"./graph":75,"./node.event":77,"./path.event":78,"./var.event":79,"d3":38}],77:[function(require,module,exports){
+},{"./drag.event":75,"./execute_dijkstra":76,"./graph":77,"./node.event":79,"./path.event":80,"./var.event":81,"d3":38}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -26786,7 +26954,7 @@ function circleHover(d1, display, isPathClicked) {
 exports.initNodeEvents = initNodeEvents;
 exports.circleHover = circleHover;
 
-},{"d3":38}],78:[function(require,module,exports){
+},{"d3":38}],80:[function(require,module,exports){
 'use strict';
 
 var d3 = require('d3');
@@ -26824,7 +26992,7 @@ function initPathEvents(path, isPathClicked) {
 
 exports.initPathEvents = initPathEvents;
 
-},{"d3":38}],79:[function(require,module,exports){
+},{"d3":38}],81:[function(require,module,exports){
 "use strict";
 
 function initNodeClick(length) {
@@ -26843,5 +27011,5 @@ exports.initNodeClick = initNodeClick;
 exports.initPathClick = initPathClick;
 exports.clearArray = clearArray;
 
-},{}]},{},[76])(76)
+},{}]},{},[78])(78)
 });

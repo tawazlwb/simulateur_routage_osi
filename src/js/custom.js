@@ -1,20 +1,3 @@
-var $chart_area, lastWidth, GraphModule;
-
-function checkForChanges() {
-  if ($chart_area.width() != lastWidth) {
-    lastWidth = $chart_area.width();
-    let height = $('#graph').height();
-    GraphModule.Graph.graph.svg.style('width', lastWidth + 'px');
-    GraphModule.Graph.simulation.force(
-      'center',
-      customModule.d3.forceCenter(lastWidth / 2, height / 2)
-    );
-    GraphModule.Graph.simulation.restart();
-  }
-
-  setTimeout(checkForChanges, 500);
-}
-
 $(document).ready(function() {
   $chart_area = $('.chart-area');
   lastWidth = $('.chart-area').width();
@@ -22,8 +5,11 @@ $(document).ready(function() {
   // custom network
   var $start = $('#start');
   var $optimal = $('#optimal');
+  var $clear = $('#clear');
   var $nodes_data = $('#nodes_data');
   var $links_data = $('#links_data');
+  var $distance = $('#distance');
+  var $path = $('#path');
 
   $nodes_data.on('click', function() {
     if (
@@ -46,6 +32,7 @@ $(document).ready(function() {
     }
   });
 
+  var firstStart = true;
   $start.on('click', function() {
     if ($nodes_data.val().length !== 0 && $links_data.val().length !== 0) {
       let nodeData, linkData;
@@ -72,6 +59,11 @@ $(document).ready(function() {
       // correct the svg element width
       customModule.correctSVGWidth(lastWidth);
       checkForChanges();
+
+      $optimal.removeClass('disabled');
+      $clear.addClass('disabled');
+      $distance.text('...');
+      $path.text('...');
     } else {
       if ($nodes_data.val().length === 0) {
         $nodes_data.addClass('text-danger');
@@ -82,9 +74,5 @@ $(document).ready(function() {
         $links_data.val('Missing data!');
       }
     }
-  });
-
-  $optimal.on('click', function() {
-    console.log('optimal');
   });
 });

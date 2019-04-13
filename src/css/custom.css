@@ -6,3 +6,8 @@
 .my-4 {
   margin-bottom: 1rem !important;
 }
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
