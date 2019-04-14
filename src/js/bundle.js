@@ -26428,6 +26428,20 @@ var d3 = require('d3');
 //create somewhere to put the force directed graph
 var svg = d3.select('svg');
 
+// node possible names
+var names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'W', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD'];
+// node number constraint
+var nodes_min_value = 10;
+var nodes_max_value = 30;
+
+// node link constraint
+var nodes_min_links = 1;
+var nodes_max_links = 5;
+
+// link value constraint
+var links_min_value = 1;
+var links_max_value = 99;
+
 // nodes data
 var nodes_data = [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }, { name: 'E' }, { name: 'F' }];
 
@@ -26437,14 +26451,50 @@ var links_data = [{ source: 'A', target: 'B', distance: 7 }, { source: 'A', targ
   //{ source: 'E', target: 'F', distance: 9 }
 }];
 
+function randomNumber(min, max) {
+  var random = Math.floor(Math.random() * (max - min + 1)) + min;
+  return random;
+}
+
+function randomNodes(min, max) {
+  var nodes_number = randomNumber(min, max);
+  var nodes_data = [];
+  for (var i = 0; i < nodes_number; i++) {
+    var node_name = { name: names[i] };
+    nodes_data.push(node_name);
+  }
+  return nodes_data;
+}
+
+function countNodeLinks(node, links_data) {
+  //let el
+  for (var i = 0; i < links_data.length; i++) {
+    var link = links_data[i];
+    if (node.name === link.source) {}
+  }
+}
+
+function randomLinks(nodes) {
+  var links_data = [];
+  for (var i = 0; i < nodes.length; i++) {
+    var _nodes_data = nodes.slice(0);
+    var node = _nodes_data[i];
+    var node_link_number = randomNumber(nodes_min_links, nodes_max_links);
+  }
+
+  return null;
+}
+
 function initData(graphData) {
   if (typeof graphData !== 'undefined') {
     // Custom data
-    var _nodes_data = graphData.nodes_data;
+    var _nodes_data2 = graphData.nodes_data;
     var _links_data = graphData.links_data;
-    return { svg: svg, nodes_data: _nodes_data, links_data: _links_data };
+    return { svg: svg, nodes_data: _nodes_data2, links_data: _links_data };
   } else {
     // Random data
+    var nodes_datas = randomNodes(nodes_min_value, nodes_max_value);
+
     return { svg: svg, nodes_data: nodes_data, links_data: links_data };
   }
 }
