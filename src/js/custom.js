@@ -32,6 +32,7 @@ $(document).ready(function() {
     }
   });
 
+  var firstStart = true;
   $start.on('click', function() {
     if ($nodes_data.val().length !== 0 && $links_data.val().length !== 0) {
       let nodeData, linkData;
