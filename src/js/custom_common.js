@@ -128,7 +128,7 @@ $(document).ready(function() {
           $optimal.toggleClass('disabled');
         } else {
           drawPath(results.path);
-          $distance.text('12');
+          $distance.text(results.distance);
           $path.text(results.path.join(' -> '));
           $clear.toggleClass('disabled');
           $(this).toggleClass('disabled');
