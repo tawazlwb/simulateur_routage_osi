@@ -26739,6 +26739,15 @@ function prepareProblemData(graph, start, finish) {
       element[target] = value;
     }
   }
+
+  if (problem['finish']) {
+    for (var shild in problem['finish']) {
+      if (problem['finish'].hasOwnProperty(shild)) {
+        if (!problem[shild]) problem[shild] = {};
+        problem[shild]['finish'] = problem['finish'][shild];
+      }
+    }
+  }
   problem['finish'] = {};
 
   if (!problem.start) {
@@ -26782,8 +26791,66 @@ function prepareProblemData(graph, start, finish) {
   return problem;
 }
 
+function organize(problem) {
+  var newProblem = {};
+  newProblem.start = problem.start;
+
+  var processed = [],
+      visited = [];
+
+  // init start
+  visited.push('start');
+  for (var property in problem.start) {
+    if (problem.start.hasOwnProperty(property)) {
+      processed.push(property);
+    }
+  }
+
+  while (processed.length) {
+    var element = processed.splice(0, 1);
+    element = element[0];
+
+    // add elements
+    for (var shild in problem[element]) {
+      if (!visited.includes(shild)) {
+        if (!newProblem[element]) newProblem[element] = {};
+        newProblem[element][shild] = problem[element][shild];
+      }
+    }
+
+    for (var properties in problem) {
+      if (problem.hasOwnProperty(properties)) {
+        var newProperties = problem[properties];
+        for (var property in newProperties) {
+          if (newProperties.hasOwnProperty(property)) {
+            if (property === element && !visited.includes(properties)) {
+              if (!newProblem[element]) newProblem[element] = {};
+              newProblem[element][properties] = newProperties[property];
+            }
+          }
+        }
+      }
+    }
+
+    // save element as visited
+    visited.push(element);
+
+    // add element shildren
+    var shildren = newProblem[element];
+    for (var shild in shildren) {
+      if (shildren.hasOwnProperty(shild) && !processed.includes(shild)) {
+        processed.push(shild);
+      }
+    }
+  }
+
+  newProblem.finish = {};
+  return newProblem;
+}
+
 function run(graph, start, finish) {
   var problem = prepareProblemData(graph, start, finish);
+  problem = organize(problem);
   var result = dijkstra.execute(problem);
   var last = result.path.length - 1;
   result.path[0] = start;
